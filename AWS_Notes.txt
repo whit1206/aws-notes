@@ -1,0 +1,576 @@
+AWS Notes:
+
+-Region: A geographical area consisting of 2 or more availability zones.
+-Availability Zone (AZ): a logical data center, some distance from eachother
+-Edge Location: CDN endpoints for CloudFront, more edge locations then regions or AZs
+
+-Compute*:
+  -EC2 (Elastic Compute Cloud): VMs within the AWS platform, can have dedicated machines
+  -Elastic Container Services or EC2 Container services: run/manage docker containers at scale
+  -Elastic Beanstalk: For devs who want to just upload their code, auto provison scaling groups,ec2 instances, etc
+  -Lambda: code uploaded to cloud, you control when it executes, no server/VM required, nothing to manage (ex: image overlay service, autotriggered with file upload)
+  -Lightsail: makes setting up VPCs easy without understanding the underlying structures, will privision you with a server, fixed ip address with SSH or RDP access and a simple management console (watered down version of EC2), only worry about the OS
+  -Batch: used for batch computing
+
+-Storage*:
+  -S3 (Simple Storage Service): object based storage, using buckets, files uploaded to buckets
+  -EFS (Elastic File System): Network attacked storage, can be mounted to EC2 instances
+  -Glacier: Data archival for long term cheap storage
+  -Snowball: way to bring large amounts of data into the AWS environment (by mailing a harddrive)
+  -Storage Gateway: virtual appliances that will replicate info back to S3 (there is 4 different kinds of GWs)
+
+-Databases*:
+  -RDS (Relational Database Service): MySQL, Postgres, SQL Server, Aurora (Amazon's version of MySQL), Oracle, and relational database will sit within RDS
+  -DynamoDB: for non-relational databases
+  -Elasticcache: caching commonly queried things from DB server rather then always from DB (free up DB 
+  -Redshift: data warehouseing or business intelligence, long running queries offloaded from main db
+
+-Migration*:
+  -AWS Migration Hub:  tracking service to track applications as you migrate them to AWS
+  -Application Discovery Service: automated collection of tools to track dependencies for our applications
+  -Database Migration Service: easy way to migrate db'es from on-prem to AWS
+  -Server Migration Service: help to migrate your physcial and virtual servers to AWS
+  -Snowball: used for migrating large amounts of data to the AWS
+
+-Networking & Content Delivery*:
+  -VPC (Virtual Private Cloud)*****: like a virtual data center with security items like config firewalls, AZs, CIDR address ranges, ACLs, route tables
+  -CloudFront: 	Amazon's content delivery network (CDN), distributing media files geographically for faster access
+  -Route53: AWS DNS service
+  -API Gateway: creating APIs for your own services and fine tuned control, authentication, etc
+  -Direct Connect: direct line from your office/datacenter into Amazon and connect to your VPC
+
+-Developer Tools:
+  -CodeStar: group devs to work together and project manage code, Continuous Delivery tool chain, release code in minutes
+  -CodeCommit: place to store code (private GIT repos)
+  -CodeBuild: can compile and build code, run tests and produce packages ready to deploy
+  -CodeDeploy: deployment service, can automate deployment to lamba, EC2 and on-prem instances
+  -CodePipeline: Continuous Delivery service, use to model, visualize and automate steps for deployment
+  -Xray: debug and analyze services, find root causes and performance bottlenecks
+  -Cloud9: IDE environment for developing your code inside AWS console with web browser
+
+-Management Tools*:
+  -CloudWatch: monitoring service
+  -CloudFormation*: a way of scripting infrastructure, can deploy whole sites with it, ex: deploy wordpress or Sharepoint site, reuse code to deploy to other regions/sites, people Opensource these templates
+  -CloudTrail*: anytime you do something in AWS env to log changes to your AWS env, turned on by default, stores only for a week. Useful for tracking down problems like server being used for bitcoin mining, can see what they did to get to it and hijack the machine, useful for seeing how and when you were hacked
+  -Config*: monitors the config of your AWS env, can move snapshot forward and back and visualize your env
+  -OpsWorks: (like beanstalk) uses chef and puppet to automate the config for all your environments
+  -Service Catalog: manage a catalog of IT services approved for use in AWS (like VM images, SW, databases, completle multi-tier architectures, especially for regulatory compliance
+  -Systems Manager: interface for managing your AWS resources (usually for EC2), useful for patch management, can group resources by department or application
+  -Trusted Advisor*: give advice around security, left ports open, if can use AWS services more (how to save money)
+  -Managed Services: can help with EC2 and autoscaling if you dont want to worry about it
+
+-Media Services:
+  -Elastic Transcoder: can take video and resize it for different size screens
+  -MediaConvert: file based video transcoding service with broadcast grade features (get media ready for broadcase to multiscreen on scale)
+  -MediaLive: creates high quality video streams to deliver to internet and tv multiscreen devices
+  -MediaPackage: prepares and protects media for delivery over the internet
+  -MediaStore: great place to store your media, optimized over S3, consistency and low latency especially for live and on-demand content
+  -MediaTailor: target advertising into video streams without sacrificing video quality of the broadcast
+
+-Machine Learning:
+  -SageMaker: makes it easy to use DeepLearning (neural networks) for coding their environments
+  -Comprehend: sentiment analysis around data (people saying good or bad things about your products)
+  -DeepLens: artificially aware camera (physical hardware) that doesn't need to connect to a backend to do it, on board the camera can figure out what it is looking at (ex: app someone coming to your front door and if you recognize them or not and whether door should open or not)
+  -Lex: powers the Alexa service, AI way for communicating with customers
+  -Machine Learning: (different then SageMaker) more entry level AI, can take data, perform analysis and tell you if there is any new data from it (ex: Recommended products on Amazon)
+  -Polly: takes text and turns it into speech
+  -Rekognition: both image and video, upload a file and it will tell you whats in the file (picture of dog playing with ball on beach will give you "dob,beach,ball" with percentages)
+  -Amazon Translate: translate between languages using machine learning, English into other languages
+  -Amazon Transcribe: automatic speech recognition, video/audio speech into text
+
+-Analytics*:
+  -Athena: SQL queries against things in S3 buckets (ex bunch of excel files, can create query to pull out names from several files), serverless, no infrastructure to manage
+  -EMR (Elastic Map Reduce)*: processing large amounts of big data, but splitting it up by several servers
+  -CloudSearch: for searching ex: blog entries
+  -ElasticSearch Service: another search service
+  -Kinesis*: ingesting large amounts of data streams into AWS form multiple sources like social media feeds, tweets (for a certain hash tag) 
+  -Kinesis Video Streams: ingest lots of video streams and perform certain functions on that video
+  -QuickSight: inexpensive Business Intelligence (BI) tool
+  -Data Pipeline*: a way to move data between AWS data services
+  -Glue: used for ETL data services for migrating large amounts of data
+
+-Security & Identity & Compliance*: 
+  -IAM (Identity Access Management)*:
+  -Cognito: device authentications (ex: with mobile apps like facebook or gmail, linked in) to req access to AWS resources
+  -GuardDuty: monitors for malicious activity on your AWS account
+  -Inspector*: agent you install on your VMs and run tests against it for security vulnerabilities and schedule to run at certain times and give me a severity list
+  -Macie: scan for S3 buckets that contain PII
+  -Certificate Manager*: (get ssl certs for free if using AWS and register domains thru route53) manages ssl certs
+  -CloudHSM (Hardware Security Module)*: dedicated HW to store public and private keys (also to access, encrypt objects, etc)
+  -Directory Service*: a way to integrate MS Active Directory with AWS services
+  -WAF (Web Application Firewall)*: like layer7 firewall stop CSS and sql injections, etc
+  -Shield*: DDOS mitigation, Advanced Shield is 24x7 support team with shield for extra $3k/mo (will remove from bill if get attacked but only with advanced)
+  -Artifact: for audit and compliance, portal for AWS compliance reports, manage select agreements (ex: SOC controls, PCI reports for CC billing compliancy)
+
+-Mobile Services:
+  -Mobile Hub: management console for a mobile app, will setup AWS services for you generating cloud configuration, use mobile SDK to connect your new app to your AWS backend
+  -Pinpoint: use targeted push notifications to drive mobile engagements (ex: push notifications to your mobile users next to a restaurant)
+  -AppSync: updates data in realtime, syncs for offline users for when they reconnect
+  -Device Farm: testing your app on real live mobile devices
+  -Mobile Analytics: analytics service for mobile apps
+
+-AR/VR ("Sumerian"): still in beta
+
+-Application Integrations*:
+  -Step Functions: way of manageing lambda functions
+  -Amazon MQ: AWS' own message queue
+  -SNS (Notification Service)*: (Ex: setup billing alarm > $10 send email)
+  -SQS (Simple Queue Service)*: way of decoupling architecture, holding info to act on in a queue until instances polling this queue pull the message down, if a message not processed (instance dies) AWS will put back in the Queue 
+  -SWF (Simple Workflow Serice)*: can have humans as part of the workflow (Ex: warehouse operations)
+
+-Customer Engagement:
+  -Connect: contact service as a service, like a call center, dynamic and personal customer experiences
+  -Simple Email Service*: great way of sending large amounts of email, pay as you go
+
+-Business Productivity:
+  -Alexa for Business: dial into meeting, inform IT, reorder office supplies
+  -Chime: like google hangouts for video meetings, can record, even low bandwidth
+  -WorkDocs*: like dropbox for AWS, safe and secure work related docs
+  -WorkMail: like office365 or gmail for businesses with your email
+
+-Desktop and App Streaming*:
+  -Workspaces: VDI solution (run OS in cloud and streaming down to the device)
+  -AppStream 2.0: streaming app run from cloud down to device (like Citrix)
+
+-Internet of Things:
+  -iOT: ways of sending back millions of devices sending back sensor information (ex: temp, humidity, video, etc)
+  -iOT Device Management: for managing large amounts of iOT devices
+  -FreeRTOS: OS for microcontrollers that is free
+  -Greengrass: software that lets you run local compute messaging data caching, sync and machine learning interface capabilities for connected devices in a secure way
+
+-Gave Development:
+  -Gamelift: service for helping to write games
+
+Note: to get Developer Associate: watch S3 and dynamo and application integration, analytics 
+
+---------------------------
+IAM: 
+  -manage users and their level of access to AWS console
+  -centralized control and shared access of your AWS account, granular permissions
+  -Identity Federation (AD, FB, LI, etc)
+  -multifactor authentication
+  -temp access for users/devices to specific services
+  -password rotation policy
+  -supports PCI DSS Compliance (for CC processing/storage/transmission)
+  -universal, doesnt apply to regions at this time
+  -root acct is used to originally setup AWS account (not an IAM account)
+
+Groups: collection of users under one set of permissions
+Roles: we create roles and can assign them to AWS resources (ex: create EC2 instance, assign it a role to access S3 and then it can write files directly to S3 w/o setting up usernames and passwords)
+Policies: a JSON doc (keyvalue pair) that defines one or more permissions, attach them to users, groups and roles, can all share
+
+*Users, groups and roles are global and not tied to a specific region, no perms by default
+*when you customize the IAM signin link it updates the DNS entry (did use your AWS account number found under account details)
+*Should active MFA (multifactor authentication) for root login
+
+-When creating IAM users, can have Programatic and mgmt Console access
+-create a group, give admin to access everything
+-Access Key is for command line api of AWS Console only (uses key id and secret access key)
+   -can only see when you create them, no way to get them again
+   -cant use to login to the console
+   -cant use username and password to access command line api either
+   -download the csv as wont be able to do it later
+-managed policy can be inherited from the group a user is in (ex: read only access to s3)
+-permissions can also be assigned to an individual outside of a group, under user, permissions tab will say policies attached directly in one section, attached from group in another
+-can disable/enable programatic access under user->security credential->Make inactive under access keys, can also regenerate
+
+-security status on front will all turn green once setup MFA, delete root access keys,  create iam accounts,  use groups for perms and  apply a password policy
+
+-IAM password policy under account settings
+  -can require length, certain character types or combos, whether they can all change passwords or not, prevent reuse, expiration, auto password expiration
+  -can also enable or disable regions for the account
+
+-IAM roles useful for allowing:
+  -IAM user in another account access
+  -application on EC2 access to other AWS resources
+  -AWS service needs to act on resources to provide features
+  -users from corporate dir who use  identify federation  with SAML
+  -works by issuing keys for short term access (making it more secure)
+  -ex: Create role allow EC2 instances to write files to S3	
+     Roletype: EC2 (click and select use case)
+     Policies: AmazonS3FullAccess
+     Rollname: S3-Admin-Access
+----------------------------------------------
+How to create a billing Alarm/alert (send email when goes over a certain amount for a period of time): 
+   -goto billing dashboard, Alerts and Notices & click enable now, receive billing alerts & save. Click Manage Billing alerts, will take you to cloud watch (where all monitoring happens)
+   -Alarms->Billing, Create Alarm, set amount and email, confirm in email and click View alarm
+
+----------------------------------------------
+
+S3: Simple Storage Service
+  -READ THE FAQ: https://AWS.amazon.com/s3/faqs/
+  -secure, highly durable storage place for your files (object based storage), spread across multiple devices / facilities for storing your data in the cloud, designed to withstand failure
+  -key value store
+    -key:name of the object/filename (will be all lowercase)
+    -value: the data/file contents
+    -version id: which version of the object is this
+    -metadata: when created, etc
+    -subresources
+       -ACL: access control lists: who can access, can be fine grained: bucket level or on individual files
+       -Torrent: support bit torrent
+  -can upload to s3 much faster using multi-part uploads
+  -object based (ie lets you to upload files, NOT SUITABLE FOR OS installs or DBs, would use block based storage for that)
+  -file size: 0-5TB, unlimited overall storage, files are stored in buckets (directories)
+  -S3 is a universal namespace, names must be unique globally
+    DNS for bucket name: https://s3-<region>.amazonAWS.com/<bucketname>
+  -when uploading, get HTTP 200 status  code if it uploading a file is successful
+  -Data consistency model:
+     -Read after Write consistency for PUTS on NEW objects (can immediately read after writing a new object)
+     -Eventual consistency for overwrite PUTS and DELETES (updates can take some time to get )meaning if changing, will get it back but can be a while before see the latest version. For first write guaranteed to get at least a version back if reading right away after
+     -updates are atomic, cant get mid update/partial, but will get a whole version of a file
+  -can sort keys in alphabetical order
+     -if same name, its suggested we salt the start of the filename using random letter or number so its better stored across S3, if filenames are similar   
+  -99.99% uptime availability for S3 platform
+  -amazon guarantees 99.9% availability
+  -amazon guarantees 99.999999999 (11 x 9s) durability (how good is data at being retrieved correctly
+  -tiered storage options/classes
+    -S3: 99.99 availability and 11 9s durability, can sustain loss of 2 facilities concurrently
+    -S3 IA (Infrequently Accessed): less accessed data but still provides rapid access, lower fee but charged retrieval fee (ex: payroll slips not viewed often but need it immediately when i need it)
+    -RRS (Reduced Redundancy Storage): 99.99% availability, 99.99% durability, lot cheaper then s3
+       (useful for storing data you could generate again, ex: thumbnail)
+    -Glacier: for data archival, very cheap but takes 3-5 hours to restore from glacier
+       -$0.01/GB per month
+  -lifecycle management (if X days old, move to another storage tier
+  -versioning: same object with multiple versions
+  -encryption: 
+     -client side: can encrypt it on the client before uploading to the cloud (ex: on desktop ourselves)
+     -everything supports SSL for connection
+     -server side encryption (uses AES) options:
+        -Amazon S3 managed keys(SSE-S3)
+        -KMS (SSE-KMS)
+        -Customer Provided Keys(SSE-C)
+  -secure data using ACLs and bucket policies
+  -costs:
+    -pay for storage
+    -# of requests
+    -Storage Management Pricing: tag certain data and know what costs are attributed to what (costs per tag)
+    -Data transfer pricing (data coming in is not charged, but outgoing and internal moving is charged)
+    -Transfer Accelleration: uses Cloudfront to accellerate /route data over optimized network path using edge locations closest to the customer
+       -can use speed comparison tool to see how much s3 accesslerator would speed things up for diff regions
+  -manage buckets at a global level, they will be based in a region but can all be managed together
+  -objects can have their own encrytion, storage class, tags and metadata (ex: content type)
+  -buckets can have their own tags, but files in that bucket dont inherit the bucket tag
+     -by default buckets and the files inside them are private!!!
+     -buckets can have versioning, tags, transfer accelleration, logging, static website hosting, events, requester pays
+     -bucket policy, can use policy generator, for Principal I can use "*" for everyone
+     -management: type: lifecycle, replication, analytics, metrics, inventory
+  
+  -Version Control:
+     -stores all versions of an object (all writes, even  if you delete the object, but delete marker can be deleted)
+     -great for backups
+     -integrates with lifecycle rules
+     -can use MFA (multi factor auth) delete for additional protection against accidental deletes
+     -if on, large files that are updated often will be duplicated, eating up a lot of space quickly
+     -can have significant costs associated with using it
+       -once enabled for a bucket you can only suspend it, you can't turn it off
+  
+  -In order for Cross Region Replication to work
+     -versioning turned on for both buckets
+     -goto bucket, management tab, Replication Button
+     -regions must be unique
+     -Rules control how things replicate, can be enabled or disabled
+     -Source can be all contents in bucket or a subfolder called a Prefix in this bucket
+     -only new objects from that point moving forward will be replicated
+     -destination is another bucket, in this account or another on
+     -can change storage class for replicated objects (ex switch to IA if just using as a backup device)
+         can also change owner of replicated objects
+     -can select an IAM role or create one for it
+     -to replicate existing objects use the AWS Command line interface (pip3 install AWScli)
+     -AWS configure  #enter key, secret
+     -AWS s3 ls #shows current buckets
+     -AWS s3 ls <bucket name>  #shows contents of specified bucket
+     -AWS s3 cp --recursive s3://bucketfrom[/file] s3://bucketto[/filename]  #copies specified contents from one bucket to another
+            -note: permissions don't copy over, have to do sep and new bucket was default private
+     -delete markers are replicated but deleting a version isn't. Also deleting delete markers isn't replicated
+     -when reverting to previous version, you have to do in both buckets, it isn't copied over
+     -updates are new objects and will get transferred over, even if wasn't there before
+     -cant use daisy chaining at this time
+     -useful for storing/backing up something like a wallet, etc
+ 
+  -Life Cycle Management
+     -how amazon S3 manages objects during their lifetime, can automate tier transition (IE and/or glacier), auto delete expire objects, clean up incomplete multi-part uploads
+        -if versioning is enabled, can also have actions on previous versions of a file (if versioning is turned on)
+     -Under management, Lifecycle button, then select a name for the rule
+     -optionally apply a prefix, can be on a folder or a folder/object to limit it in scope if don't want the whole bucket
+     -Glacier not available in certain regions like Sau Paulo and Singapore
+     -min of 30 days after creation before transition to IA, 
+        -note: IA transition requires min object size of 128KB
+     -can be archived off 60 days (after object creation) min before being moved to amazon glacier
+        -permanently delete: objects in glacier must exist for min of 90 days
+     -can clean up multi-part uploads and old left over delete markers (can improve performance of list operation)
+     -delete markers do not incur storage costs
+     -expire current versions after min of 61 days, permanently delete old versions after min 61 days
+     -can not recover permanently deleted old versions
+     -rules can be enabled/disabled
+
+  -Cloudfront:
+     -CDN: Content delivery network: system of distributed servers (network) delivers web content to user based on geographic locations, using faster more optimized routes from
+        ex: people in Austraila might have much higher latency to website then other in US. Through geo localized caches to speed up load times after first user loads it
+     -edge location: location where content is to be cached, separate then region/AZ, all around the world
+     -origin the origin of all files that CDN will distribute: S3 bucket, EC2 instance, ELB, or route 53
+     -distribution: name given to CDN which consists of collection of edge locations
+     -routed first to edge location, if not cached, get from origin, cached at edge location and passed back to user
+        -next requests to edge location will be faster
+     -cached items will expire once past TTL (time to live)
+     -cloudfront can deliver entire website, including dynamic, static, streaming and interactive content
+     -automatically routed to nearest edge location so faster delivery performance
+     -optimized to work with other AWS services like S3, EC2, ELB and Route 53
+     -can work with non-AWS origin servers which stores the original definitive versions of your files, so can have an origin that is not hosted in AWS
+     -Terms: 
+        -Distribution: The name given to the CDN which consists of group of edge locations
+        -Distribution types:
+          -Web Distribution: typically used for websites (html, css, php, graphic files, if media is http or https distributed
+          -RTMP: used for media streaming (media must be stored in an S3 bucket), media flash format based, allows them to start playing the media before it finishes downloading
+        -Edge Location: location closest to user where content can be cached, diff then region/AZ
+        -Origin: the origin of all files on CDN. Can be S3 bucket, EC2 instance, ELB or Route53. Doesn't even have to be in AWS
+     -Edge locations can be used for both read and write (if written, will be put back up to origin server)
+     -objects are cached for length of TTL, you can clear cached objects, but will be charged
+     -First time using it, click "Create Distribution", create web distribution for ex:
+        -origin domain name: which source is your origin (ex: S3 bucket)
+        -origin path (optional): folder within s3 bucket if we want, leave blank for full bucket
+        -origin id: the title we want to give this source, lets us ID unique origins within the same distribution
+        -restrict bucket access: s3 url no longer works, all requests must go through Cloudfront
+        -origin access identity: restricting buckets, leave as "Create New Identity"
+        -Grant read permissions on bucket: yes for have wizard update perms automatically
+        -origin custom headers: use if need to, optional
+        -Default Cache Behavior Settings:
+           -Path pattern: uses regex, set as Default(*) for now
+           -Viewer Protocol Policy: use/force HTTPS use
+           -Allowed HTTP Methods: GET/HEAD = readonly of content, GET/HEAD/OPTIONS = allow users to get what actions can be done, GET/HEAD/OPTIONS/PUT/POST/PATCH/DELETE = lets users also overwrite cached content and back to origin
+           -Cache HTTP Methods: whether we want to cache OPTIONS as well
+           -Object Caching: use origin cache headers or our own
+           -Min TTL (in sec): 0 is default
+           -MAX TTL: (in sec)
+           -Default TTL (in sec): 86400 (24 hours)
+           -Forward Cookies: whether Cloudfront should forward all cookies of the request
+           -Query string  forward and caching: whether Cloudfront should forward and cache on query parameters (customizable)
+           -Smooth streaming: if using Microsoft Smooth Streaming service for live event
+           -Restrict Viewer Access (use signed URLs or signed cookies): training company with new videos, need to secure them to only certain individuals
+           -Compress objects Automatically: compress the objects for transport when user access gzip compression (sent in header)
+           -Lambda Function Associating: can associate a Lambda functions with certain event types
+         -Distribution Settings:
+           -Price Class: what major price class (US&Europe, US&Canada&Europe&Asia, All Edge locations), all edge = best performance
+           -AWS WAF Web ACL: can use web application firewall to protect your content (allow/block certain requests)
+           -Alternate Domain Names (CNAMES): covered in route53, 
+           -SSL Certificate: can use default Cloudfront ones for now (or if using CNames/different domain name above, can specific our own SSL cert)
+           -Support HTTP Versions: can choose which HTTP version family you want to use (defaults to all families, including HTTP2)
+           -Default Root object: if accessing naked url which root object would it go to, use for hosting a website
+           -Logging: can log into a separate bucket, also can do for cookies.             
+           -Enable IPV6: on by default
+           -comment: our user comments
+           -Distribution State: whether this whole thing is enabled or not
+       -Once created, it can take a while to apply updated permissions to the bucket (5-10+ minutes)
+       -Can have multiple origins, can edit under Origins tab
+       -Behaviors: can have multiple based on a regex, can do under behavior error page
+       -Error pages tab: for creating error pages when getting certain server values (Ex: no content=400)
+       -Restrictions tab: can prevent users in certain countries from accessing content (can whitelist or blacklist)
+       -Invalidations tab: validate objects that are cached in certain edge locations, can invalidate cached objects in certain locations but you will pay for this
+       -to delete, first disable the distribution then wait 15 min or so to disable it and then can delete it
+       -while its preparing, will redirect to the origin until its ready at the edge location 
+  -Security and Protection:
+    -all buckets are private by default
+    -Can setup control to buckets using:
+      -Bucket Policies: bucket wide
+      -ACLs: can drill down to specific items
+    -S3 buckets can be configured to create access logs logging all requests
+    -Encryption
+      -In Transit: to/from the bucket, SSL/TLS (TLS replaces SSL) using HTTPS
+      -Data at Rest:
+        -Server side encryption
+          -SE Managed Keys (SSE-S3): each object is encrypted with its unique key employing strong multi-factor encryption. Then they encrypt the key with a master key and regularly rotate that key, its AES-256, service is all automated
+          -AWS Key Management Service, Managed Keys (SSE-KMS): like SSE-S3 but with additional options but costs a little bit more, uses an envelop key (a key that protects your data encryption key), also provides audit trail of what/who was using what keys, can generate our own keys
+          -SSE with Customer Provided Keys (SSE-C): we manages all the keys and S3 manages the encryption, user manages the key
+        -Client Side encryption: we encrypt our data on client side and upload to S3
+
+-Storage Gateway
+  -virtual appliance propagates/replicates info up to AWS S3 and to glacier depending on which storage gw we are using 
+  -available as. VM image (hyperV or VmWare ESXi), associate it with your AWS account through activation process, can then use AWS management console to configure it (or AWScli)
+  -types:
+     -File Gateway (NFS): store flat files in S3 (word, pics, videos)
+       -Files are stored in S3 buckets and stored thru a NFS mount point. ownership, permissions and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. no files stored on-prem
+       -Once files transferred to S3, can be managed as native S3 object and respect bucket policies such as versioning/lifecycle management, and cross region replication apply
+     -Volume Gateway (iSCSI): block based storage, presents disk volumes using iSCSI block protocol
+        -good storage to run OS or DB on, not really for flat files
+        -volumes can be asynchronously backed up as point-in-time snapshots stored in cloud as Amazon EBS snapshots
+        -snapshots are incremental backups that capture on changed blocks, stored compressed to minimize storage costs on AWS
+        -Types:
+          -Stored Volumes: store entire copy of data set and store asynchronously on AWS, on S3 as incremental EBS snapshots
+            -1GB-16TB in size
+            -full copies stored on-site, backed to AWS, requires more infrastructure on your end
+          -Cached Volumes: only store access data, rest is backed off in amazon
+            -uses S3 as primary data source while retaining frequently accessed data locally on storage GW
+            -minimizes the need to scale on-prem infrastructure
+            -low latency for frequently accessed items, no complete copy of the data on-prem
+            -volumes 1GB-32TB in size, attach them as ISCSI devices to on-prem app servers
+            -GW stores data you write  in S3 and then create local copy for frequently read data in on 
+     -Tape Gateway (VTL): virtual tapes, backup and archiving solution, make virtual tapes and send off to Glacier for archiving
+       -can use existing tape backup solutions, but tapes sent to S3 Glacier
+       -supported netbackup, backupexec, Veeam, etc
+       -connects as ISCSI
+       -also called Gateway Virtual Tape Library
+
+-Snowball
+  -used to be called AWS Import/Export, users sent in harddrive and AWS uploaded directly from internal network bypassing internet
+  -Types: 
+    -Snowball (hard drive by mail, was the legacy application):
+      -Petabyte scale data transport solution, secure apliance to transfer large amounts of data in/out of AWS
+      -can cost as low as 1/5 the cost of internet transfer, you ship it, AWS lets you verify validity of data transfer
+      -80TB size US has 150TB size available, AWS secure wipes when done
+      -support 256 bit encryption, have TPM (tamper proof design)
+    -Snowball Edge (AWS data center in a box): 
+      -100TB data transfer device, onboard storage and computer capabilities
+      -can use as temp storage or local compute work loads in remote/offline locations
+      -like mini aws data center on-prem (can also run lambda functions), compute capacity in locations where normally cant do it
+      -ex: deploy on airplane, application works locally to collect engine info, then manually picked up from aircraft, sent to AWS and your data is available in S3 immediately afterward 
+    -Snowmobile ():
+      -PB or Exabyte scale data sizes, 45ft sea container on the back of a truck, 100PB per snowmobile
+      -good for whole datacenter migrations
+      -take about 6 months to move an Exabyte
+      -use a client to connect to the appliance, set it up, then download manifest file (access credentials) then use awscli
+      -built in kindle will show the ip to connect to  
+        -./snowball start -i 192.168.1.116 -m <manifast file> -u<unlock code>
+        -./snowball cp <file> s3://<bucket-snowball>
+
+-S3 Transfer Acceleration:
+  -uses CloudFront to accelerate uploads to S3, get a distinct URL to upload directly to an edge location which then transfers that file to S3 (ex:<bucketname>.s3-accelerate.amazonaws.com)
+  -goto bucket and Properties tab, click on Transfer Acceleration, enable it and note the url (will take a minute to enable)
+  -uses a new url to upload, use the calculator to see the diff it makes per region
+  -can be enabled/disabled, 
+
+-Creating a Static Website with S3
+  -if you plan on using Route53 with own domain, bucket name has to be same as domain name, if domain is hotmail.com, bucketname must be "hotmail"
+  -****URL format: <bucketname>.s3-website-<region>.amazonaws.com
+  -ex: use bucket to host a website
+    -index:
+    -error page
+    -redirect rules
+    -all rest of files will redirect as static files unless use redirect rules
+  -gives you scalability if you need it (ex: launch of a simple website, got 15mill views in 24 hours, scaled automatically)
+    
+----------------------
+
+EC2 - Elastic Compute Cloud
+  -READ THE FAQ: https://aws.amazon.com/ec2/faqs/
+  -provides resizable computer capacity in the cloud, quickly scales as demand goes up and down or as requirements change
+  -reduces the time to obtain and boot new instances (from weeks/months to minutes)
+  -allows for much cheaper cost of entry and quick prototyping
+  -no contracts really needed, only pay for the capacity you actually use
+  -Options:
+    -On Demand: pay fixed rate by the hour/second (linux instances only) with no commitment (most common), used to only be by the hour
+      -good for users that want low cost and flexibility of EC2 w/o up front payment or long term commitment
+      -short term, spiky or unpredictable workload that can't be interrupted
+      -great for app development with AWS for the first time 
+    -Reserved Instances: provide a capacity reservation, offer significant discount on hourly charge for an instance (1 or 3 year term contract), where you know your application, traffic and behavior is predictable, can get lower cost this way
+      -great for steady state of predictable usage, applications that require reserved capacity
+      -users able to make upfront payments to reduce total computing costs even further
+      -Types:
+        -Standard RI's(reserved instances): up to 75% off on-demand pricing
+        -Convertible RI's: up to 54% off on-demand pricing, capability to change the attributes of the RI as long as the exchange results in the creation of RI's of equal or greater value (change instance to windows to linux or gen purpose or CPU optimized but have to spend same or more)
+        -Scheduled RI's: available to launch w/i time window you reserve. Can match capacity reservation to a predictable recurring schedule that only requires a fraction of a day, week or month (ex: end of month report calculations instance hosting)
+    -Spot: enable to bid whatever price you want for instance capacity providing even great savings if application has flexible start and end times, rate moves around all the time depending on how many are using it now (ex: good for ...)
+       -good for applications that are feasible at only very low compute prices and flexible start/end times
+       -ex: companies that need 1 time very large data processing (ex: OCR bunch of images at 3am on a sunday morning)
+            -1 case study showcased it would cost millions of dollars, but after using spot instances, did it for like < $10K
+       -also good if for urgent computing needs for large amounts of additional capacity
+       -if you terminate the instance, you still pay for the whole hour. If AWS terminates the instance, you get the hour it was in for free
+    -Dedicated Hosts: physical EC2 server dedicated for your use, help reduce cost by allowing you to use existing server-bound server licenses. Also prevents multi-tenant scenario, but proving to not make so much security difference at this time
+      -use for regulatory or licensing compliancy, can be on-demand
+      -also can be setup via reservation up to 70% off on-demand pricing
+  -Instance Types:
+    -D2: Dense Storage, Use case: Fileservers/Data warehousing/Hadoop (D=density,2=version (there was a D1 before))
+    -R4: memory optimized, Use case: Memory Intensive Apps/DBs (think R=ram)
+    -M4: general purpose, Use case: Application Servers (think M=main choice)
+    -C4: Compute Optimize, Use case: CPU Intensive Apps/DBs
+    -G2: Graphic Intensive, Use case: Video encoding/ 3d application streaming
+    -I2: High speed storage, Use case: NoSQL DBs, Data Warehousing, etc (I=IOPs)
+    -F1: Field Programmable Gate Array, Use case: Hardware acceleration for your code (change physical hw)
+    -T2: Lowest cost, general purpose, Use case: Web servers/ small DBs 
+    -P2: Graphics/General Purpose GPU, Use case: Machine learning, Bit coin mining, etc. (P=pics) 
+    -X1: Memory optimized, Use case: SAP HANA/Apache Spark, etc (X=extreme memory)
+   Memory trick***: "DR Mc GIFT PX" - Scottish dr who gives out gift pictures
+
+-EBS: 
+  -disk volumes you create and can attache to EC2 instances, once attached can create filesystem on top of these volumes, run a DB, etc
+  -EBS volumes are placed in a specific AZ, where automatically replicated to protect from failure of a single component
+  -not automatically replicated to different AZ
+  -Types:
+    -General Purpose SSD (GP2): general purpose, balance between price and performance
+      -ratio of 3IOPS per GB with up to 10000 IOPS and ability to burst to 3000 IOPS for extended periods of time for volumes 3334+ GB
+      -within free tier
+    -Provisioned IOPS SSD (IO1): IO intensive apps such as large relational or NoSQL DBs
+      -Use this if need 10000+ IOPS, can go up to 20000 IOPS / volume
+    -Throughput Optimized HDD (ST1): older magnetic based storage with spinning disks
+      -big data/data warehouse/log processing, good for sequential data
+      -can't be boot volumes
+    -Cold HDD (SC1): lowest cost storage for infrequently accessed workloads, older magnetic based storage with spinning disks
+      -fileservers
+      -can't be boot volumes
+    -Magnetic (Standard): lowest cost per gigabyte of all EBS volumes that is bootable
+      -good for workloads where volume types are accessed infrequently and apps where lowest storage costs is important
+      -basically same as Cold HDD but is bootable
+  -can't mount 1 EBS volume to multiple EC2 instance, instead use EFS (Elastic File Storage)
+
+-EC2 Instances:
+  -Two types of virtualization:
+    -HVM ():
+    -PV (Para-virtual):
+  -AMI (Amazon Machine Instances): Ex: Amazon Linux, Suse, Windows, etc
+  -EC2 Instance type list is next selection (T2 Micro is what is used for free tier support)
+  -Instance Details
+    -Number of instances: 1 by default
+    -Purchasing Options: can request Spot instances
+       -if so will tell you current price, can set maximum bid for AZ's in your region (.045 = 4.5 cents/hour)
+       -persistent request: will do request again every time spot is terminated (ex: if start/end if a week, then will run once/week)
+       -launch group: used for launching spot instances together at the same time
+       -request valid from/to: start/end date and time of the request is valid for
+       -to get other kinds, uncheck spot, and other options under Tenancy field
+    -Network: by default will use your default VPC (created with account)
+    -Subnet: which AZ do you want to put it in (CIDR block range), 1 subnet always = to one AZ
+        -cant have subnet that goes across multiple AZ's
+    -Auto-assign Public IP: use default setting to auto assign the IP address
+    -IAM Role: leave blank for now, useful for auto deploying credentials to AWS resource that assume it
+    -Shutdown Behavior: (not available for spot instances), instance can be terminated or stopped when OS shutsdown
+    -Enable termination protection: (not available for spot instances), stop people from accidentally shutting down
+      -disabled by default on new instances, have to manually turn on
+    
+    -Monitoring: enable cloudwatch detailed monitoring (incurs extra charges), if off normal is every 5 minute monitoring, else switches to every minute 
+    -Tenancy: (not available for spot instances)
+    -T2 unlimited: allows T2 instance to burst beyond baseline as needed, if average utilization for hour is less then peak, no additional charge
+    -Advanced Details:
+      -User data: allows bootscripts to be passed to the EC2 instance(s), if more then one, the same script is passed to all instances in that group
+    -Storage:
+      -root volume, you set size, can only be of 3 type of bootable volumes
+      -by default attached root volume is deleted on termination, but can override by unchecking the box
+      -additional volumes are not deleted by default on termination
+      -root volume is not encrypted
+    -Tags: key/values you set (up to 127/255 chars limits), useful for billing and other meta data tracking, better to be detailed
+    -Security Groups: virtual firewalls, can now add descriptions. Add type (HTTP/HTTPS for web servers for ex), source as neccessary, appropriate comments
+    -key pair window: choose existing key pair or make a new one
+       -Used for SSHing into the server, can also not require one but NOT recommended
+       -can use existing key pair or when making new one, you give keypair name and then download it before continuing.
+  -Once instance is running, can ssh into the box
+    -get public IP, goto terminal, "chmod 400 MyEC2KeyPair.pem", then can use: "ssh ec2-user@<ip> -i MyEC2KeyPair.pem"
+    -once on did a sudo yum update for security updates
+    -to install apache: yum install httpd, then to make sure it always runs: "chkconfig httpd on", content in /var/www/html
+  -On main instance page, stats covers running, IP info, AZ, IDs, root device info, launch stats and time, owner, keypair its using, IAM role, platform, etc
+  -Two types of Status checks:
+    -System status check: useful to make sure can just reach instance (checks hypervisor and network access), just reboot and will come up on another hypervisor
+    -Instance Status check: can get to instance OS, try rebooting first, usually something wrong with the system itself
+  -Monitoring: basic monitoring every 5 min by default, shows disk reads/writes (bytes and ops), cpu, network, status checks 
+  -Reserved Instances:
+    -Purchase reserved instances: on left hand side, separate area, you do a search of the terms you want, add to cart and purchase
+  -Encrypted boot volumes: add an extra volume that is encrypted, copy over the root volume and then reset boot volume and save as an AMI
+     -can also use boot locker or use the API
+  -multiple security groups can be assigned to an instance, can see total rules under "view inbound rules" under description tab
+
+-Security Groups
+  -basically a software virtual firewall
+  -can set ports outgoing and incoming, now have notes, a name for it, port, protocol type
+  -everything in is blocked by default, rules only open up that port/protocol/ip, all outbound traffic is enabled by default
+  -can use CIDR blocks for IP block ranges (0.0.0.0/0 is all ips)
+  -any changes to rules apply immediately!
+  -security groups are STATEFUL; if create inbound rule, that traffic is automatically allowed back out again
+  -for source you can put security group id instead of ips if you want to
+  -can't block specific IP addresses using Security groups, instead use NACLs (network access control lists) for that
+  -can specify allow rules but not deny rules
+
